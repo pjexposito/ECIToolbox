@@ -1,0 +1,46 @@
+{
+    "appKeys": {},
+    "capabilities": [
+        ""
+    ],
+    "companyName": "pjexposito@gmail.com",
+    "longName": "ECI Toolbox",
+    "projectType": "native",
+    "resources": {
+        "media": [
+            {
+                "file": "images/pulsar.png",
+                "name": "ICON_PULSAR",
+                "type": "png"
+            },
+            {
+                "file": "images/play.png",
+                "name": "ICONO_PLAY",
+                "type": "png"
+            },
+            {
+                "file": "images/arriba.png",
+                "name": "ICONO_ARRIBA",
+                "type": "png"
+            },
+            {
+                "file": "images/abajo.png",
+                "name": "ICONO_ABAJO",
+                "type": "png"
+            },
+            {
+                "file": "images/icono.png",
+                "menuIcon": true,
+                "name": "IMAGEN_ICONO",
+                "type": "png"
+            }
+        ]
+    },
+    "shortName": "ECI Toolboox",
+    "uuid": "2e80dd14-227d-4423-aeb5-12ec0da49163",
+    "versionCode": 1,
+    "versionLabel": "1.0",
+    "watchapp": {
+        "watchface": false
+    }
+}
