@@ -4,11 +4,10 @@
   
 #define NUM_MENU_SECTIONS 2
 #define NUM_FIRST_MENU_ITEMS 2
-#define NUM_SECOND_MENU_ITEMS 2
+#define NUM_SECOND_MENU_ITEMS 1
   
-int valor = 1;  
-char valor_str[6];
 int loading = 0;
+
 
 static Window *window;
 
@@ -33,6 +32,14 @@ void in_received_handler(DictionaryIterator *iter, void *context)
         process_tuple(t);
         t = dict_read_next(iter);
     }
+    char version[20];
+    time_t now = time(NULL);
+    struct tm *tick_time = localtime(&now); 
+    snprintf(version, 20, "Versión: %i-%i-%i",tick_time->tm_mday,(tick_time->tm_mon)+1,(tick_time->tm_year)-100); 
+  
+  // En 80 se guarda la fecha de actualización
+  
+    persist_write_string(80, version);
     vibes_short_pulse();
     loading = 0;
     layer_mark_dirty(menu_layer_get_layer(menu_layer));
@@ -89,7 +96,11 @@ static void menu_draw_row_callback(GContext* ctx, const Layer *cell_layer, MenuI
           break;
         case 1:
           if (loading==0) 
-            menu_cell_basic_draw(ctx, cell_layer, "Actualizar", "Último: 11-11-11", NULL);
+            {
+              char version[20];
+              persist_read_string(80, version, sizeof(version));
+              menu_cell_basic_draw(ctx, cell_layer, "Actualizar", version, NULL);
+            } 
           else
             menu_cell_basic_draw(ctx, cell_layer, "Actualizando...", "Por favor, espera.", NULL);
           break;
@@ -99,12 +110,6 @@ static void menu_draw_row_callback(GContext* ctx, const Layer *cell_layer, MenuI
       switch (cell_index->row) {
         case 0:
           menu_cell_basic_draw(ctx, cell_layer, "FPP", "Formula personal de pago", NULL);
-          break; 
-        case 1:
-          memset(valor_str, 0, 6);
-          snprintf(valor_str, sizeof(valor_str), "%d", valor);
-
-          menu_cell_basic_draw(ctx, cell_layer, valor_str, "Formula personal de pago", NULL);
           break; 
       }
   }
@@ -116,10 +121,10 @@ void menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *da
     case 0:
       switch (cell_index->row) {
       case 0:
-        carga_calendario();
+        if (loading==0) carga_calendario();
         break;
       case 1:
-        send_int(5,5);
+        if (loading==0) send_int(5,5);
         break;
       }
       break;
@@ -127,11 +132,7 @@ void menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *da
     case 1:
       switch (cell_index->row) {
       case 0:
-         carga_fpp();
-         break;
-      case 1:
-         valor++;
-         layer_mark_dirty(menu_layer_get_layer(menu_layer));
+         if (loading==0) carga_fpp();
          break;
       }
       break;    

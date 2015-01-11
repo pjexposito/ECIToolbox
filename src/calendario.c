@@ -330,9 +330,10 @@ void click_config_provider(void *context) {
 void window_load(Window *window)
 {
     //funcion para saber el día, el mes y el año actual
-    time_t now = time(NULL);
-    struct tm *tick_time = localtime(&now);  
+ 
     dia=1;
+    time_t now = time(NULL);
+    struct tm *tick_time = localtime(&now); 
     dia_actual = tick_time->tm_mday;
     mes = tick_time->tm_mon+1;
     mes_actual = mes;
