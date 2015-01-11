@@ -79,10 +79,10 @@ static int16_t menu_get_header_height_callback(MenuLayer *menu_layer, uint16_t s
 static void menu_draw_header_callback(GContext* ctx, const Layer *cell_layer, uint16_t section_index, void *data) {
   switch (section_index) {
     case 0:
-      menu_cell_basic_header_draw(ctx, cell_layer, "Calendario de turnos");
+      menu_cell_basic_header_draw(ctx, cell_layer, "Programas");
       break;
     case 1:
-      menu_cell_basic_header_draw(ctx, cell_layer, "FPP");
+      menu_cell_basic_header_draw(ctx, cell_layer, "Herramientas");
       break;
   }
 }
@@ -92,25 +92,25 @@ static void menu_draw_row_callback(GContext* ctx, const Layer *cell_layer, MenuI
     case 0:
       switch (cell_index->row) {
         case 0:
-          menu_cell_basic_draw(ctx, cell_layer, "Calendarios", "Mostrar calendarios", NULL);
+          menu_cell_basic_draw(ctx, cell_layer, "Calendarios", "Mostrar turnos", NULL);
           break;
         case 1:
-          if (loading==0) 
-            {
-              char version[20];
-              persist_read_string(80, version, sizeof(version));
-              menu_cell_basic_draw(ctx, cell_layer, "Actualizar", version, NULL);
-            } 
-          else
-            menu_cell_basic_draw(ctx, cell_layer, "Actualizando...", "Por favor, espera.", NULL);
-          break;
+          menu_cell_basic_draw(ctx, cell_layer, "FPP", "Calculadora", NULL);
+          break; 
       }
       break;
     case 1:
       switch (cell_index->row) {
         case 0:
-          menu_cell_basic_draw(ctx, cell_layer, "FPP", "Formula personal de pago", NULL);
-          break; 
+          if (loading==0) 
+            {
+              char version[20];
+              persist_read_string(80, version, sizeof(version));
+              menu_cell_basic_draw(ctx, cell_layer, "Actualizar datos", version, NULL);
+            } 
+          else
+            menu_cell_basic_draw(ctx, cell_layer, "Actualizando...", "Por favor, espera.", NULL);
+          break;
       }
   }
 }
@@ -124,7 +124,7 @@ void menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *da
         if (loading==0) carga_calendario();
         break;
       case 1:
-        if (loading==0) send_int(5,5);
+        if (loading==0) carga_fpp();
         break;
       }
       break;
@@ -132,7 +132,7 @@ void menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *da
     case 1:
       switch (cell_index->row) {
       case 0:
-         if (loading==0) carga_fpp();
+         if (loading==0) send_int(5,5);
          break;
       }
       break;    

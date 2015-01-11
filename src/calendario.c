@@ -172,13 +172,17 @@ void carga_datos()
 // Esta función se ejecutará cada vez que se refresque la CapaLineas
 void CapaLineas_update_callback(Layer *me, GContext* ctx)
 {
-    // Color del fondo y color del trazo
-    graphics_context_set_stroke_color(ctx, COLOR_PRINCIPAL);
-    graphics_context_set_fill_color(ctx, COLOR_PRINCIPAL);
-    graphics_context_set_text_color(ctx, COLOR_PRINCIPAL);
+
     // left, top, anchura, altura
     // 144x168
     
+    // Color del fondo y color del trazo
+        
+    graphics_context_set_stroke_color(ctx, COLOR_PRINCIPAL);
+    graphics_context_set_fill_color(ctx, COLOR_PRINCIPAL);
+    graphics_context_set_text_color(ctx, COLOR_FONDO);  
+    graphics_fill_rect(ctx,GRect(2, 30, 141, LINEA_HORIZONTAL),3,GCornersTop);
+
     // Se pinta la cabecera con los días de la semana
     graphics_draw_text(ctx, "L", fonts_get_system_font(FUENTE_GRANDE_BOLD), GRect(2, 27, 20, 20), GTextOverflowModeTrailingEllipsis, GTextAlignmentCenter, NULL);
     graphics_draw_text(ctx, "M", fonts_get_system_font(FUENTE_GRANDE_BOLD), GRect(22, 27, 20, 20), GTextOverflowModeTrailingEllipsis, GTextAlignmentCenter, NULL);
@@ -187,14 +191,21 @@ void CapaLineas_update_callback(Layer *me, GContext* ctx)
     graphics_draw_text(ctx, "V", fonts_get_system_font(FUENTE_GRANDE_BOLD), GRect(82, 27, 20, 20), GTextOverflowModeTrailingEllipsis, GTextAlignmentCenter, NULL);
     graphics_draw_text(ctx, "S", fonts_get_system_font(FUENTE_GRANDE_BOLD), GRect(102, 27, 20, 20), GTextOverflowModeTrailingEllipsis, GTextAlignmentCenter, NULL);
     graphics_draw_text(ctx, "D", fonts_get_system_font(FUENTE_GRANDE_BOLD), GRect(122, 27, 20, 20), GTextOverflowModeTrailingEllipsis, GTextAlignmentCenter, NULL);
-        
+
+  
+  
+    graphics_context_set_stroke_color(ctx, COLOR_PRINCIPAL);
+    graphics_context_set_fill_color(ctx, COLOR_PRINCIPAL);
+    graphics_context_set_text_color(ctx, COLOR_PRINCIPAL);
+  
+  
     // Pinta el nombre del mes
-    graphics_draw_text(ctx, nombre_mes[mes], fonts_get_system_font(FUENTE_GRANDE_BOLD), GRect(0, 5, 72, 10), GTextOverflowModeTrailingEllipsis, GTextAlignmentCenter, NULL);
+    //graphics_draw_text(ctx, nombre_mes[mes], fonts_get_system_font(FUENTE_GRANDE_BOLD), GRect(0, 5, 72, 10), GTextOverflowModeTrailingEllipsis, GTextAlignmentCenter, NULL);
         
     // Pasa el int del año a letra y pinta el año
-    char temp[10]  = "";
-    snprintf(temp, sizeof(temp), "%d", ano);
-    graphics_draw_text(ctx, temp, fonts_get_system_font(FUENTE_GRANDE_BOLD), GRect(73, 5, 72, 10), GTextOverflowModeTrailingEllipsis, GTextAlignmentCenter, NULL);
+    char temp[20]  = "";
+    snprintf(temp, sizeof(temp), "%s %d", nombre_mes[mes],ano);
+    graphics_draw_text(ctx, temp, fonts_get_system_font(FUENTE_GRANDE_BOLD), GRect(1, 5, 143, 10), GTextOverflowModeTrailingEllipsis, GTextAlignmentCenter, NULL);
         
     // Pos es la columna en dónde se escribe el día de la semana.
     // Se inicia en 2 para centrar el dato en el cuadro del calendario
@@ -261,9 +272,20 @@ void CapaLineas_update_callback(Layer *me, GContext* ctx)
             // A continuación se comprueba si el día del bucle es el día actual. En caso afirmativo, se pinta
             // ese día en negrita
             if (((i-casilla_salida+1)==dia_actual) && (mes==mes_actual))
-                graphics_draw_text(ctx, (chkturnos==1)?nombre_turno[turnos[posicion_turno][i-casilla_salida+2]]:str_dias, fonts_get_system_font(FUENTE_BOLD), GRect(pos, linea-3, 20, 20), GTextOverflowModeTrailingEllipsis, GTextAlignmentCenter, NULL);
+              {  
+              graphics_context_set_stroke_color(ctx, COLOR_PRINCIPAL);
+              graphics_context_set_fill_color(ctx, COLOR_PRINCIPAL);
+              graphics_context_set_text_color(ctx, COLOR_FONDO);
+              graphics_fill_rect(ctx,GRect(pos, linea, LINEA_VERTICAL, LINEA_HORIZONTAL),0,GCornerNone );
+              graphics_draw_text(ctx, (chkturnos==1)?nombre_turno[turnos[posicion_turno][i-casilla_salida+2]]:str_dias, fonts_get_system_font(FUENTE), GRect(pos, linea-3, 20, 20), GTextOverflowModeTrailingEllipsis, GTextAlignmentCenter, NULL);
+              }
             else
+              {
+                graphics_context_set_stroke_color(ctx, COLOR_PRINCIPAL);
+                graphics_context_set_fill_color(ctx, COLOR_PRINCIPAL);
+                graphics_context_set_text_color(ctx, COLOR_PRINCIPAL);
                 graphics_draw_text(ctx, (chkturnos==1)?nombre_turno[turnos[posicion_turno][i-casilla_salida+2]]:str_dias, fonts_get_system_font(FUENTE), GRect(pos, linea-3, 20, 20), GTextOverflowModeTrailingEllipsis, GTextAlignmentCenter, NULL);
+              }
             }
             // Se suma 20 a pos para saltar al siguiente cuadro y se continúa el bucle
             pos = pos+20;
@@ -272,14 +294,14 @@ void CapaLineas_update_callback(Layer *me, GContext* ctx)
         // Se pintan las líneas de calendario
         
     // Lineas horizontales
-    for (int x=0; x<6+nueva_fila; x++)
-        graphics_fill_rect(ctx, GRect(2, LINEA_HORIZONTAL_INICIAL+(x*LINEA_HORIZONTAL), 140, 1), 0, GCornerNone);
+    for (int x=0; x<5+nueva_fila; x++)
+        graphics_fill_rect(ctx, GRect(2, LINEA_HORIZONTAL_INICIAL+(x*LINEA_HORIZONTAL)+LINEA_HORIZONTAL, 140, 1), 0, GCornerNone);
     graphics_fill_rect(ctx, GRect(2, LINEA_HORIZONTAL_INICIAL+((6+nueva_fila)*LINEA_HORIZONTAL), 140, 2), 0, GCornerNone);
         
         
     // Lineas verticales
     for (int x=0; x<8;x++)
-        graphics_fill_rect(ctx, GRect(LINEA_VERTICAL_INICIAL+(x*LINEA_VERTICAL), 30, 1, ((6+nueva_fila)*LINEA_HORIZONTAL)+2), 0, GCornerNone);
+        graphics_fill_rect(ctx, GRect(LINEA_VERTICAL_INICIAL+(x*LINEA_VERTICAL), 30+LINEA_HORIZONTAL, 1, ((6+nueva_fila)*LINEA_HORIZONTAL)+2-LINEA_HORIZONTAL), 0, GCornerNone);
 
     
 }  // Y termina la función
