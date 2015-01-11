@@ -4,11 +4,51 @@
   
 #define NUM_MENU_SECTIONS 2
 #define NUM_FIRST_MENU_ITEMS 2
-#define NUM_SECOND_MENU_ITEMS 1
+#define NUM_SECOND_MENU_ITEMS 2
   
+int valor = 1;  
+char valor_str[6];
+int loading = 0;
+
 static Window *window;
 
 static MenuLayer *menu_layer;
+
+void process_tuple(Tuple *t)
+{
+    int key = t->key;
+    char string_value[64];
+    memset(string_value, 0, 64);
+    strcpy(string_value, t->value->cstring);
+    persist_write_string(key, string_value);
+}
+
+
+void in_received_handler(DictionaryIterator *iter, void *context)
+{
+    (void) context;
+    Tuple *t = dict_read_first(iter);
+    while(t != NULL)
+    {
+        process_tuple(t);
+        t = dict_read_next(iter);
+    }
+    vibes_short_pulse();
+    loading = 0;
+    layer_mark_dirty(menu_layer_get_layer(menu_layer));
+}
+
+void send_int(int key, int cmd)
+{
+  loading = 1;
+  layer_mark_dirty(menu_layer_get_layer(menu_layer));
+	DictionaryIterator *iter;
+ 	app_message_outbox_begin(&iter);
+ 	Tuplet value = TupletInteger(key, cmd);
+ 	dict_write_tuplet(iter, &value);	
+ 	app_message_outbox_send();
+}
+
 
 static uint16_t menu_get_num_sections_callback(MenuLayer *menu_layer, void *data) {
   return NUM_MENU_SECTIONS;
@@ -48,7 +88,10 @@ static void menu_draw_row_callback(GContext* ctx, const Layer *cell_layer, MenuI
           menu_cell_basic_draw(ctx, cell_layer, "Calendarios", "Mostrar calendarios", NULL);
           break;
         case 1:
-            menu_cell_basic_draw(ctx, cell_layer, "Actualizar", "Actualiza los datos", NULL);
+          if (loading==0) 
+            menu_cell_basic_draw(ctx, cell_layer, "Actualizar", "Último: 11-11-11", NULL);
+          else
+            menu_cell_basic_draw(ctx, cell_layer, "Actualizando...", "Por favor, espera.", NULL);
           break;
       }
       break;
@@ -56,6 +99,12 @@ static void menu_draw_row_callback(GContext* ctx, const Layer *cell_layer, MenuI
       switch (cell_index->row) {
         case 0:
           menu_cell_basic_draw(ctx, cell_layer, "FPP", "Formula personal de pago", NULL);
+          break; 
+        case 1:
+          memset(valor_str, 0, 6);
+          snprintf(valor_str, sizeof(valor_str), "%d", valor);
+
+          menu_cell_basic_draw(ctx, cell_layer, valor_str, "Formula personal de pago", NULL);
           break; 
       }
   }
@@ -79,6 +128,10 @@ void menu_select_callback(MenuLayer *menu_layer, MenuIndex *cell_index, void *da
       switch (cell_index->row) {
       case 0:
          carga_fpp();
+         break;
+      case 1:
+         valor++;
+         layer_mark_dirty(menu_layer_get_layer(menu_layer));
          break;
       }
       break;    
@@ -114,6 +167,7 @@ static void window_unload(Window *window) {
 int main(void) {
   window = window_create();
 	app_message_open(app_message_inbox_size_maximum(), app_message_outbox_size_maximum());		
+  app_message_register_inbox_received(in_received_handler);
   window_set_window_handlers(window, (WindowHandlers) {
     .load = window_load,
     .unload = window_unload,
