@@ -8,7 +8,6 @@
   
 int loading = 0;
 
-
 static Window *window;
 
 static MenuLayer *menu_layer;
@@ -96,7 +95,8 @@ static void menu_draw_row_callback(GContext* ctx, const Layer *cell_layer, MenuI
           break;
         case 1:
           menu_cell_basic_draw(ctx, cell_layer, "FPP", "Calculadora", NULL);
-          break; 
+          break;          
+        
       }
       break;
     case 1:
@@ -158,6 +158,7 @@ static void window_load(Window *window) {
   
   menu_layer_set_click_config_onto_window(menu_layer, window);
   layer_add_child(window_layer, menu_layer_get_layer(menu_layer));
+
 }
 
 static void window_unload(Window *window) {
@@ -173,7 +174,9 @@ int main(void) {
     .load = window_load,
     .unload = window_unload,
   });
-  window_stack_push(window, true);
+  window_stack_push(window, false);
+
   app_event_loop();
+
   window_destroy(window);
 }

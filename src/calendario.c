@@ -1,5 +1,6 @@
 #include "pebble.h"
 #include "calendario.h"
+#include "funciones.h"
 
   
 #define MESES_TURNOS 20
@@ -98,16 +99,6 @@ int dweek(int year, int month, int day)
 
 
 
-char* subString (const char* input, int offset, int len, char* dest)
-{
-  int input_len = strlen (input);
-  if (offset + len > input_len)
-  {
-     return NULL;
-  }
-  strncpy (dest, input + offset, len);
-  return dest;
-}
 
 void anade_datos(const char* input, int mes)
 {
