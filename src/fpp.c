@@ -229,9 +229,20 @@ void select_click_handler_fpp(ClickRecognizerRef recognizer, void *context)
   pinta_datos_fpp();
 }
 
-void select_long_click_handler_fpp(ClickRecognizerRef recognizer, void *context)
+void down_long_click_handler_fpp(ClickRecognizerRef recognizer, void *context)
 {
     tipo_financiacion==0 ? tipo_financiacion++ : tipo_financiacion--;
+    pinta_datos_fpp();
+}
+
+void select_long_click_handler_fpp(ClickRecognizerRef recognizer, void *context)
+{
+    int precio=(numero1*1000)+(numero2*100)+(numero3*10)+numero4;
+    precio = precio/1.21;
+    numero1 = precio/1000;
+    numero2 = (precio % 1000) /100;
+    numero3 = (precio % 100) /10;
+    numero4 = (precio % 10);
     pinta_datos_fpp();
 }
 
@@ -240,7 +251,8 @@ void click_config_provider_fpp(void *context)
 	window_single_click_subscribe(BUTTON_ID_UP, up_click_handler_fpp);
 	window_single_click_subscribe(BUTTON_ID_DOWN, down_click_handler_fpp);
 	window_single_click_subscribe(BUTTON_ID_SELECT, select_click_handler_fpp);
-  window_long_click_subscribe(BUTTON_ID_SELECT, 2000, select_long_click_handler_fpp, NULL);
+  window_long_click_subscribe(BUTTON_ID_DOWN, 2000, down_long_click_handler_fpp, NULL);
+  window_long_click_subscribe(BUTTON_ID_SELECT, 700, select_long_click_handler_fpp, NULL);
 
 }
 

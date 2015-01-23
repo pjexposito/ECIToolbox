@@ -1,6 +1,7 @@
 #include "pebble.h"
 #include "calendario.h"
 #include "fpp.h"
+
   
 #define NUM_MENU_SECTIONS 2
 #define NUM_FIRST_MENU_ITEMS 2
@@ -95,8 +96,7 @@ static void menu_draw_row_callback(GContext* ctx, const Layer *cell_layer, MenuI
           break;
         case 1:
           menu_cell_basic_draw(ctx, cell_layer, "FPP", "Calculadora", NULL);
-          break;          
-        
+          break;                
       }
       break;
     case 1:
