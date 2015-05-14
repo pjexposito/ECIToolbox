@@ -36,10 +36,14 @@
             }
         ]
     },
+    "sdkVersion": "3",
     "shortName": "ECI Toolboox",
+    "targetPlatforms": [
+        "aplite",
+        "basalt"
+    ],
     "uuid": "b5463576-6fff-46ac-98b0-c5dd55bd1928",
-    "versionCode": 1,
-    "versionLabel": "1.0",
+    "versionLabel": "1.1",
     "watchapp": {
         "watchface": false
     }

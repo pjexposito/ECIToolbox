@@ -258,7 +258,9 @@ void click_config_provider_fpp(void *context)
 
 static void initialise_ui(void) {
   s_window = window_create();
-  window_set_fullscreen(s_window, false);
+#ifdef PBL_SDK_2
+  window_set_fullscreen(s_window, true);
+#endif
   carga_datos_fpp();
   
   

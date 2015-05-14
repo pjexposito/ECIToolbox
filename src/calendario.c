@@ -11,8 +11,36 @@
 #define LINEA_VERTICAL_INICIAL 2
 #define LINEA_VERTICAL 20
 
-#define COLOR_PRINCIPAL GColorBlack  // El color del lápiz es blanco
-#define COLOR_FONDO GColorWhite  // y el fondo, negro
+#ifdef PBL_COLOR
+#   define COLOR_PRINCIPAL GColorBlack  // El color del lápiz es blanco
+#   define COLOR_FONDO GColorCadetBlue   // y el fondo, azul para BASALT
+#   define COLOR_M GColorMintGreen  
+#   define COLOR_T GColorJaegerGreen
+#   define COLOR_AA GColorBabyBlueEyes  
+#   define COLOR_AT GColorIndigo  
+#   define COLOR_L GColorChromeYellow  
+#   define COLOR_FA GColorPictonBlue 
+#   define COLOR_FT GColorVividCerulean 
+#   define COLOR_D GColorLightGray  
+#   define COLOR_LINEAS GColorDarkGray 
+#   define COLOR_NOMBREDIAS GColorBlack 
+
+#else
+#   define COLOR_PRINCIPAL GColorBlack  // El color del lápiz es blanco
+#   define COLOR_FONDO GColorWhite  // y el fondo, negro
+#   define COLOR_M GColorWhite  
+#   define COLOR_T GColorWhite
+#   define COLOR_AA GColorWhite  
+#   define COLOR_AT GColorWhite  
+#   define COLOR_L GColorWhite  
+#   define COLOR_FA GColorWhite 
+#   define COLOR_FT GColorWhite 
+#   define COLOR_D GColorWhite 
+#   define COLOR_LINEAS GColorBlack
+#   define COLOR_NOMBREDIAS GColorBlack 
+
+#endif  
+  
 
 #define FUENTE FONT_KEY_GOTHIC_18
 #define FUENTE_BOLD FONT_KEY_GOTHIC_18_BOLD
@@ -170,8 +198,9 @@ void CapaLineas_update_callback(Layer *me, GContext* ctx)
     // Color del fondo y color del trazo
         
     graphics_context_set_stroke_color(ctx, COLOR_PRINCIPAL);
-    graphics_context_set_fill_color(ctx, COLOR_PRINCIPAL);
+    graphics_context_set_fill_color(ctx, COLOR_NOMBREDIAS);
     graphics_context_set_text_color(ctx, COLOR_FONDO);  
+
     graphics_fill_rect(ctx,GRect(2, 30, 141, LINEA_HORIZONTAL),3,GCornersTop);
 
     // Se pinta la cabecera con los días de la semana
@@ -264,17 +293,51 @@ void CapaLineas_update_callback(Layer *me, GContext* ctx)
             // ese día en negrita
             if (((i-casilla_salida+1)==dia_actual) && (mes==mes_actual))
               {  
-              graphics_context_set_stroke_color(ctx, COLOR_PRINCIPAL);
-              graphics_context_set_fill_color(ctx, COLOR_PRINCIPAL);
+              graphics_context_set_stroke_color(ctx, COLOR_LINEAS );
+              graphics_context_set_fill_color(ctx, COLOR_M );
               graphics_context_set_text_color(ctx, COLOR_FONDO);
               graphics_fill_rect(ctx,GRect(pos, linea, LINEA_VERTICAL, LINEA_HORIZONTAL),0,GCornerNone );
               graphics_draw_text(ctx, (chkturnos==1)?nombre_turno[turnos[posicion_turno][i-casilla_salida+2]]:str_dias, fonts_get_system_font(FUENTE), GRect(pos, linea-3, 20, 20), GTextOverflowModeTrailingEllipsis, GTextAlignmentCenter, NULL);
               }
             else
               {
-                graphics_context_set_stroke_color(ctx, COLOR_PRINCIPAL);
-                graphics_context_set_fill_color(ctx, COLOR_PRINCIPAL);
+
+                graphics_context_set_stroke_color(ctx, COLOR_LINEAS );
+
+                switch (turnos[posicion_turno][i-casilla_salida+2]) {
+                case 0:
+                      graphics_context_set_fill_color(ctx, COLOR_FONDO );
+                      break;
+                case 1:
+                      graphics_context_set_fill_color(ctx, COLOR_M);
+                      break;
+                case 2:
+                      graphics_context_set_fill_color(ctx, COLOR_T);
+                      break;
+                case 3:
+                      graphics_context_set_fill_color(ctx, COLOR_AA);
+                      break;
+                case 4:
+                      graphics_context_set_fill_color(ctx, COLOR_AT);
+                      break;
+                case 5:
+                      graphics_context_set_fill_color(ctx, COLOR_L);
+                      break;
+                case 6:
+                      graphics_context_set_fill_color(ctx, COLOR_FA);  
+                      break;
+                case 7:
+                      graphics_context_set_fill_color(ctx, COLOR_FT);
+                      break;
+                case 8:
+                      graphics_context_set_fill_color(ctx, COLOR_D);
+                      break;
+                default:
+                      graphics_context_set_fill_color(ctx, COLOR_FONDO );
+                      break;
+                }
                 graphics_context_set_text_color(ctx, COLOR_PRINCIPAL);
+                graphics_fill_rect(ctx,GRect(pos, linea, LINEA_VERTICAL, LINEA_HORIZONTAL),0,GCornerNone );
                 graphics_draw_text(ctx, (chkturnos==1)?nombre_turno[turnos[posicion_turno][i-casilla_salida+2]]:str_dias, fonts_get_system_font(FUENTE), GRect(pos, linea-3, 20, 20), GTextOverflowModeTrailingEllipsis, GTextAlignmentCenter, NULL);
               }
             }
@@ -284,6 +347,9 @@ void CapaLineas_update_callback(Layer *me, GContext* ctx)
         }
         // Se pintan las líneas de calendario
         
+                  graphics_context_set_fill_color(ctx, COLOR_LINEAS );         
+
+
     // Lineas horizontales
     for (int x=0; x<5+nueva_fila; x++)
         graphics_fill_rect(ctx, GRect(2, LINEA_HORIZONTAL_INICIAL+(x*LINEA_HORIZONTAL)+LINEA_HORIZONTAL, 140, 1), 0, GCornerNone);
