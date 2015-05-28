@@ -250,7 +250,7 @@ void CapaLineas_update_callback(Layer *me, GContext* ctx)
             {
             // Hay que añadir una nueva línea a la tabla
             nueva_fila = 1;
-            linea = 132;
+            linea = 135;
             }
 
         // Si es la última columna, vuelve al principio
