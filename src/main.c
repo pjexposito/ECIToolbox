@@ -158,7 +158,7 @@ static void window_load(Window *window) {
   
   menu_layer_set_click_config_onto_window(menu_layer, window);
   layer_add_child(window_layer, menu_layer_get_layer(menu_layer));
-
+carga_calendario();
 }
 
 static void window_unload(Window *window) {

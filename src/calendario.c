@@ -59,7 +59,7 @@ int turnos[20][33];
 int cargando=0;
 
 static const char *nombre_turno[9] =
-{"vacio", "M", "T", "AA", "AT", "L", "FA", "FT", "D"};
+{"vacio", "M", "T", "AA", "AT", "L", "FM", "FT", "D"};
 
 
 
@@ -447,7 +447,9 @@ void carga_calendario()
 
     window_set_click_config_provider(window, click_config_provider);
     
-    
+    #ifdef PBL_SDK_2
+      window_set_fullscreen(window, true);
+    #endif
     window_stack_push(window, true /* Animado */);
     window_set_background_color(window, COLOR_FONDO);
     Layer *window_layer = window_get_root_layer(window);

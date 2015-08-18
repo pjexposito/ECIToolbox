@@ -142,16 +142,16 @@ void marcador_update_callback(Layer *me, GContext* ctx)
 	switch(posicion) 
     {
 		case 0:
-      graphics_fill_rect(ctx, GRect(71, 28, 11, 1), 0, GCornerNone);  
+      graphics_fill_rect(ctx, GRect(65, 28, 11, 1), 0, GCornerNone);  
       break;
 		case 1:
-      graphics_fill_rect(ctx, GRect(82, 28, 11, 1), 0, GCornerNone);    
+      graphics_fill_rect(ctx, GRect(76, 28, 11, 1), 0, GCornerNone);    
 			break;
 		case 2:
-      graphics_fill_rect(ctx, GRect(93, 28, 11, 1), 0, GCornerNone);  
+      graphics_fill_rect(ctx, GRect(87, 28, 11, 1), 0, GCornerNone);  
 			break;    
 		case 3:
-      graphics_fill_rect(ctx, GRect(104, 28, 11, 1), 0, GCornerNone);  
+      graphics_fill_rect(ctx, GRect(98, 28, 11, 1), 0, GCornerNone);  
 			break;    
     case 4:
       graphics_fill_rect(ctx, GRect(59, 56, 20, 1), 0, GCornerNone);  
@@ -265,59 +265,69 @@ static void initialise_ui(void) {
   
   
     //Asignación de recursos gráficos
-  arriba_bitmap = gbitmap_create_with_resource(RESOURCE_ID_ICONO_ARRIBA);
-  abajo_bitmap =  gbitmap_create_with_resource(RESOURCE_ID_ICONO_ABAJO);
-  pulsar_bitmap =  gbitmap_create_with_resource(RESOURCE_ID_ICON_PULSAR);
-  play_bitmap =  gbitmap_create_with_resource(RESOURCE_ID_ICONO_PLAY);
-
+  #ifdef PBL_COLOR 
+    arriba_bitmap = gbitmap_create_with_resource(RESOURCE_ID_ICONO_ARRIBA_BLACK);
+    abajo_bitmap =  gbitmap_create_with_resource(RESOURCE_ID_ICONO_ABAJO_BLACK);
+    pulsar_bitmap =  gbitmap_create_with_resource(RESOURCE_ID_ICON_PULSAR_BLACK);
+    play_bitmap =  gbitmap_create_with_resource(RESOURCE_ID_ICONO_PLAY_BLACK);
+  #else
+    arriba_bitmap = gbitmap_create_with_resource(RESOURCE_ID_ICONO_ARRIBA_WHITE);
+    abajo_bitmap =  gbitmap_create_with_resource(RESOURCE_ID_ICONO_ABAJO_WHITE);
+    pulsar_bitmap =  gbitmap_create_with_resource(RESOURCE_ID_ICON_PULSAR_WHITE);
+    play_bitmap =  gbitmap_create_with_resource(RESOURCE_ID_ICONO_PLAY_WHITE);
+  #endif
   
   s_res_gothic_24 = fonts_get_system_font(FONT_KEY_GOTHIC_24);
   s_res_bitham_42_light = fonts_get_system_font(FONT_KEY_BITHAM_42_BOLD);
   s_res_gothic_14 = fonts_get_system_font(FONT_KEY_GOTHIC_14);
   // lblImporte_layer
-  lblImporte_layer = text_layer_create(GRect(8, 2, 63, 30));
+  lblImporte_layer = text_layer_create(GRect(3, 2, 63, 24));
   text_layer_set_text(lblImporte_layer, "Importe:");
   text_layer_set_font(lblImporte_layer, s_res_gothic_24);
   layer_add_child(window_get_root_layer(s_window), (Layer *)lblImporte_layer);
   
+    // lblMeses_layer
+  lblMeses_layer = text_layer_create(GRect(3, 30, 54, 24));
+  text_layer_set_text(lblMeses_layer, "Meses:");
+  text_layer_set_font(lblMeses_layer, s_res_gothic_24);
+  layer_add_child(window_get_root_layer(s_window), (Layer *)lblMeses_layer);
+  
+    // lblIntereses_layer
+  lblIntereses_layer = text_layer_create(GRect(3, 60, 70, 24));
+  text_layer_set_text(lblIntereses_layer, "Intereses:");
+  text_layer_set_font(lblIntereses_layer, s_res_gothic_24);
+  layer_add_child(window_get_root_layer(s_window), (Layer *)lblIntereses_layer);
+  
   // dig1_layer
-  dig1_layer = text_layer_create(GRect(72, 2, 10, 24));
+  dig1_layer = text_layer_create(GRect(66, 2, 10, 24));
   text_layer_set_text(dig1_layer, "0");
   text_layer_set_font(dig1_layer, s_res_gothic_24);
   layer_add_child(window_get_root_layer(s_window), (Layer *)dig1_layer);
   
   // dig2_layer
-  dig2_layer = text_layer_create(GRect(83, 2, 10, 24));
+  dig2_layer = text_layer_create(GRect(78, 2, 10, 24));
   text_layer_set_text(dig2_layer, "0");
   text_layer_set_font(dig2_layer, s_res_gothic_24);
   layer_add_child(window_get_root_layer(s_window), (Layer *)dig2_layer);
   
-  // lblMeses_layer
-  lblMeses_layer = text_layer_create(GRect(8, 30, 54, 24));
-  text_layer_set_text(lblMeses_layer, "Meses:");
-  text_layer_set_font(lblMeses_layer, s_res_gothic_24);
-  layer_add_child(window_get_root_layer(s_window), (Layer *)lblMeses_layer);
+
   
-  // lblIntereses_layer
-  lblIntereses_layer = text_layer_create(GRect(7, 60, 73, 28));
-  text_layer_set_text(lblIntereses_layer, "Intereses:");
-  text_layer_set_font(lblIntereses_layer, s_res_gothic_24);
-  layer_add_child(window_get_root_layer(s_window), (Layer *)lblIntereses_layer);
+
   
   // dig3_layer
-  dig3_layer = text_layer_create(GRect(94, 2, 10, 24));
+  dig3_layer = text_layer_create(GRect(90, 2, 10, 24));
   text_layer_set_text(dig3_layer, "0");
   text_layer_set_font(dig3_layer, s_res_gothic_24);
   layer_add_child(window_get_root_layer(s_window), (Layer *)dig3_layer);
   
   // dig4_layer
-  dig4_layer = text_layer_create(GRect(105, 2, 10, 24));
+  dig4_layer = text_layer_create(GRect(102, 2, 10, 24));
   text_layer_set_text(dig4_layer, "0");
   text_layer_set_font(dig4_layer, s_res_gothic_24);
   layer_add_child(window_get_root_layer(s_window), (Layer *)dig4_layer);
   
   // digmeses_layer
-  digmeses_layer = text_layer_create(GRect(59, 30, 30, 24));
+  digmeses_layer = text_layer_create(GRect(60, 30, 30, 24));
   text_layer_set_text(digmeses_layer, "12");
   text_layer_set_font(digmeses_layer, s_res_gothic_24);
   layer_add_child(window_get_root_layer(s_window), (Layer *)digmeses_layer);
@@ -331,13 +341,13 @@ static void initialise_ui(void) {
 
   
   // txtIntereses_layer
-  txtIntereses_layer = text_layer_create(GRect(78, 60, 41, 24));
+  txtIntereses_layer = text_layer_create(GRect(78, 60, 20, 24));
   text_layer_set_text(txtIntereses_layer, "128");
   text_layer_set_font(txtIntereses_layer, s_res_gothic_24);
   layer_add_child(window_get_root_layer(s_window), (Layer *)txtIntereses_layer);
   
   // txtCuota_layer
-  txtCuota_layer = text_layer_create(GRect(0, 88, 123, 50));
+  txtCuota_layer = text_layer_create(GRect(0, 88, 100, 50));
   text_layer_set_text(txtCuota_layer, "111");
   text_layer_set_text_alignment(txtCuota_layer, GTextAlignmentCenter);
   text_layer_set_font(txtCuota_layer, s_res_bitham_42_light);

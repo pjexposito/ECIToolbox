@@ -11,22 +11,22 @@
             {
                 "file": "images/pulsar.png",
                 "name": "ICON_PULSAR",
-                "type": "png"
+                "type": "png-trans"
             },
             {
                 "file": "images/play.png",
                 "name": "ICONO_PLAY",
-                "type": "png"
+                "type": "png-trans"
             },
             {
                 "file": "images/arriba.png",
                 "name": "ICONO_ARRIBA",
-                "type": "png"
+                "type": "png-trans"
             },
             {
                 "file": "images/abajo.png",
                 "name": "ICONO_ABAJO",
-                "type": "png"
+                "type": "png-trans"
             },
             {
                 "file": "images/icono.png",
@@ -43,7 +43,7 @@
         "basalt"
     ],
     "uuid": "b5463576-6fff-46ac-98b0-c5dd55bd1928",
-    "versionLabel": "1.1",
+    "versionLabel": "1.3",
     "watchapp": {
         "watchface": false
     }
