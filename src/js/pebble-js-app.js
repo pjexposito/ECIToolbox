@@ -6,7 +6,7 @@ function HTTPGET(url) {
 }
 
 var ObtenDatos = function() {
-  var response = HTTPGET("https://dl.dropboxusercontent.com/u/119376/data.dat");
+  var response = HTTPGET("http://pjexposito.pe.hu/datos.php?datos=https://dl.dropboxusercontent.com/u/119376/ShiftCal.db");
   //console.log(response);
 
 	var json = JSON.parse(response);

@@ -158,7 +158,10 @@ static void window_load(Window *window) {
   
   menu_layer_set_click_config_onto_window(menu_layer, window);
   layer_add_child(window_layer, menu_layer_get_layer(menu_layer));
-carga_calendario();
+  
+  // Lo de abajo es un hack para que funcione la app en 3.6. Sacado de https://forums.getpebble.com/discussion/29318/apps-dose-not-working-firmware-3-6
+  app_timer_register(100, carga_calendario, 0);
+//carga_calendario();
 }
 
 static void window_unload(Window *window) {
