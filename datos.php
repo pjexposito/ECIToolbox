@@ -3,7 +3,7 @@
 	if (empty($base_de_datos)){
 		$base_de_datos = 'https://dl.dropboxusercontent.com/u/119376/ShiftCal.db';
 	}
-	unlink('./ShiftCal.db');
+	//unlink('./ShiftCal.db');
 	//echo 'Datos desde '.$base_de_datos . "<br>";
 	copy($base_de_datos,'ShiftCal.db');
 	
@@ -48,7 +48,7 @@
 	{
 		$inicio_matriz = 0;
 	}
-	echo '{"main":{'."<br>";
+	echo '{"main":{';
 	$contador = 0;	
 	$coma = ',';
 	for ($i = $inicio_matriz;$i < count($matriz); $i++)
@@ -57,7 +57,7 @@
 		{
 			$coma = '';
 		}
-		echo '"data'.$contador. '":"'.$matriz[$i].'"'.$coma."<br>";
+		echo '"data'.$contador. '":"'.$matriz[$i].'"'.$coma;
 		$contador++;
 	}
 	echo '}}'
